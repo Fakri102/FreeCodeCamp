@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- React and Babel -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script crossorigin
+        src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+        <!-- Freecodecamp Test -->
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+    <title>Javascript calculator</title>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+
+        const list = [];
+
+        class App extends React.Component {
+
+            state = {
+                result: list
+            }
+
+            handleDisplay = (childData) => {
+                list.push(childData)
+                this.setState({ result: list })
+            }
+
+            handleResult = () => {
+                list.join('');
+            }
+
+            handleReset = () => {
+                const length = list.length;
+                list.splice(0, length);
+                this.setState({ result: list })
+            }
+
+            render() {
+
+                return (
+                    <div className=" calculator">
+                        <div id="display" className="display">
+                            {(this.state.result.length === 0) ? 0 : this.state.result}
+                        </div>
+
+                        <Button text="AC" className="brown big-w" parentCallback={this.handleReset} />
+                        <Button text="/" className="brown" parentCallback={this.handleDisplay} />
+                        <Button text="x" className="brown" parentCallback={this.handleDisplay} />
+
+                        <Button text="9" parentCallback={this.handleDisplay} />
+                        <Button text="8" parentCallback={this.handleDisplay} />
+                        <Button text="7" parentCallback={this.handleDisplay} />
+                        <Button text="-" className="orange" parentCallback={this.handleDisplay} />
+
+                        <Button text="6" parentCallback={this.handleDisplay} />
+                        <Button text="5" parentCallback={this.handleDisplay} />
+                        <Button text="4" parentCallback={this.handleDisplay} />
+                        <Button text="+" className="orange" parentCallback={this.handleDisplay} />
+
+                        <Button text="3" parentCallback={this.handleDisplay} />
+                        <Button text="2" parentCallback={this.handleDisplay} />
+                        <Button text="1" parentCallback={this.handleDisplay} />
+                        <Button text="=" className="orange" />
+
+                        <Button text="0" className=" big-w" parentCallback={this.handleDisplay} />
+                        <Button text="." parentCallback={this.handleDisplay} />
+                        <Button text="" disabled="true" />
+                    </div>
+                )
+            }
+        }
+
+
+        class Button extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    num: this.props.text
+                }
+            }
+
+            handleClick = (event) => {
+
+                if (event.target.innerText == 'AC') {
+                    this.props.parentCallback();
+                    event.preventDefault();
+                }
+
+                else if (event.target.innerText == '=') {
+                    this.props.parentCallback(event.target.innerText);
+                    event.preventDefault();
+                }
+
+                else {
+                    this.props.parentCallback(event.target.innerText);
+                    event.preventDefault();
+                }
+
+            }
+
+            render() {
+                return (
+                    <div>
+                        <button onClick={this.handleClick} className={this.props.className} disabled={this.props.disabled}> {this.props.text} </button>
+                    </div>
+                )
+
+            }
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'))
+    </script>
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto+Condensed&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: blue;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .calculator {
+            background-color: grey;
+            width: 340px;
+            height: 550px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        .display {
+            background-color: gainsboro;
+            font-size: 40px;
+            width: 100%;
+            text-align: right;
+            padding: 15px;
+            margin: 8px;
+        }
+
+        button {
+            width: 75px;
+            height: 75px;
+            border-radius: 10px;
+            margin: 5px;
+            font-size: 30px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+
+        button.orange {
+            background-color: orange;
+        }
+
+        button.brown {
+            background-color: brown;
+        }
+
+        button.big-w {
+            width: 150px;
+        }
+
+        button:active {
+            transform: scale(0.9);
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:focus {
+            outline: none;
+        }
+    </style>
+
+
+</body>
+
+
+</html>
